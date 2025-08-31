@@ -91,7 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Share button functionality
   const shareBtn = document.getElementById('shareBtn');
   if (shareBtn) {
-    shareBtn.addEventListener('click', async () => {
+    shareBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
       const shareData = {
         title: 'Oleg Serbinov - Senior Hardware Engineer & PCB Designer',
         text: 'Check out this professional portfolio of a senior electronics engineer specializing in custom hardware development and PCB design.',
@@ -104,14 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
           await navigator.share(shareData);
         } catch (err) {
           console.log('Error sharing:', err);
+          // If Web Share fails, show fallback
+          showShareFallback(shareData);
         }
       } else {
-        // Fallback: Copy URL to clipboard
+        // Fallback: Try to copy URL to clipboard first
         try {
           await navigator.clipboard.writeText(window.location.href);
           showShareFeedback('Link copied to clipboard!');
         } catch (err) {
-          // Final fallback: Show share options
+          // If clipboard fails, show share options
           showShareFallback(shareData);
         }
       }
@@ -145,6 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to show fallback share options
   function showShareFallback(shareData) {
+    // Remove any existing share modal
+    const existingModal = document.querySelector('.share-modal');
+    if (existingModal) {
+      existingModal.remove();
+    }
+
     const shareUrls = {
       twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`,
@@ -153,47 +164,51 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const modal = document.createElement('div');
+    modal.className = 'share-modal';
     modal.innerHTML = `
-      <div style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-      ">
-        <div style="
-          background: var(--surface, #161b22);
-          padding: 2rem;
-          border-radius: 12px;
-          max-width: 400px;
-          width: 90%;
-          text-align: center;
-        ">
-          <h3 style="color: var(--text, #c9d1d9); margin-bottom: 1.5rem;">Share this website</h3>
-          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="${shareUrls.twitter}" target="_blank" style="background: #1da1f2; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;">Twitter</a>
-            <a href="${shareUrls.linkedin}" target="_blank" style="background: #0077b5; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;">LinkedIn</a>
-            <a href="${shareUrls.facebook}" target="_blank" style="background: #1877f2; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;">Facebook</a>
-            <a href="${shareUrls.telegram}" target="_blank" style="background: #0088cc; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;">Telegram</a>
+      <div class="share-modal-overlay">
+        <div class="share-modal-content">
+          <h3>Share this website</h3>
+          <div class="share-links">
+            <a href="${shareUrls.twitter}" target="_blank" class="share-link twitter">Twitter</a>
+            <a href="${shareUrls.linkedin}" target="_blank" class="share-link linkedin">LinkedIn</a>
+            <a href="${shareUrls.facebook}" target="_blank" class="share-link facebook">Facebook</a>
+            <a href="${shareUrls.telegram}" target="_blank" class="share-link telegram">Telegram</a>
           </div>
-          <button onclick="this.closest('div').parentElement.remove()" style="
-            margin-top: 1.5rem;
-            background: var(--border-soft, #30363d);
-            color: var(--text, #c9d1d9);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-          ">Close</button>
+          <button class="share-modal-close">Close</button>
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(modal);
+
+    // Add event listeners after modal is added to DOM
+    const closeBtn = modal.querySelector('.share-modal-close');
+    const overlay = modal.querySelector('.share-modal-overlay');
+
+    const closeModal = () => {
+      modal.remove();
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Prevent modal from closing immediately
+    setTimeout(() => {
+      modal.style.opacity = '1';
+    }, 10);
   }
 });

@@ -87,4 +87,128 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  // Share button functionality
+  const shareBtn = document.getElementById('shareBtn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const shareData = {
+        title: 'Oleg Serbinov - Senior Hardware Engineer & PCB Designer',
+        text: 'Check out this professional portfolio of a senior electronics engineer specializing in custom hardware development and PCB design.',
+        url: window.location.href
+      };
+
+      // Check if Web Share API is supported
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.log('Error sharing:', err);
+          // If Web Share fails, show fallback
+          showShareFallback(shareData);
+        }
+      } else {
+        // Fallback: Try to copy URL to clipboard first
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showShareFeedback('Link copied to clipboard!');
+        } catch (err) {
+          // If clipboard fails, show share options
+          showShareFallback(shareData);
+        }
+      }
+    });
+  }
+
+  // Function to show share feedback
+  function showShareFeedback(message) {
+    const feedback = document.createElement('div');
+    feedback.textContent = message;
+    feedback.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent, #ffab6b);
+      color: var(--bg, #0d1117);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => {
+      feedback.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => feedback.remove(), 300);
+    }, 2000);
+  }
+
+  // Function to show fallback share options
+  function showShareFallback(shareData) {
+    // Remove any existing share modal
+    const existingModal = document.querySelector('.share-modal');
+    if (existingModal) {
+      existingModal.remove();
+    }
+
+    const shareUrls = {
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}`
+    };
+
+    const modal = document.createElement('div');
+    modal.className = 'share-modal';
+    modal.innerHTML = `
+      <div class="share-modal-overlay">
+        <div class="share-modal-content">
+          <h3>Share this website</h3>
+          <div class="share-links">
+            <a href="${shareUrls.twitter}" target="_blank" class="share-link twitter">Twitter</a>
+            <a href="${shareUrls.linkedin}" target="_blank" class="share-link linkedin">LinkedIn</a>
+            <a href="${shareUrls.facebook}" target="_blank" class="share-link facebook">Facebook</a>
+            <a href="${shareUrls.telegram}" target="_blank" class="share-link telegram">Telegram</a>
+          </div>
+          <button class="share-modal-close">Close</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add event listeners after modal is added to DOM
+    const closeBtn = modal.querySelector('.share-modal-close');
+    const overlay = modal.querySelector('.share-modal-overlay');
+
+    const closeModal = () => {
+      modal.remove();
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Prevent modal from closing immediately
+    setTimeout(() => {
+      modal.style.opacity = '1';
+    }, 10);
+  }
 });
