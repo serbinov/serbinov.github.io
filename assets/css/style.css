@@ -1079,6 +1079,7 @@ body.qr-expanded .qr-overlay {
   z-index: 10000;
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: auto;
 }
 
 .share-modal-overlay {
@@ -1092,6 +1093,7 @@ body.qr-expanded .qr-overlay {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .share-modal-content {
@@ -1104,6 +1106,8 @@ body.qr-expanded .qr-overlay {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transform: scale(0.9);
   transition: transform 0.3s ease;
+  cursor: default;
+  pointer-events: auto;
 }
 
 .share-modal h3 {

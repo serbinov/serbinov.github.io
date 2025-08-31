@@ -67,7 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close expanded QR when clicking outside
+  // Global click handler for closing expanded elements
   document.addEventListener('click', (e) => {
+    // Don't close if clicking inside share modal
+    if (e.target.closest('.share-modal')) {
+      return;
+    }
+
+    // Close expanded QR codes
     if (!e.target.closest('.qr-grid img') && !e.target.closest('.qr-overlay')) {
       const expandedQr = document.querySelector('.qr-grid img.expanded');
       if (expandedQr) {
@@ -80,6 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      // Close share modal if it exists
+      const shareModal = document.querySelector('.share-modal');
+      if (shareModal) {
+        shareModal.remove();
+        return;
+      }
+
+      // Otherwise close expanded QR codes
       const expandedQr = document.querySelector('.qr-grid img.expanded');
       if (expandedQr) {
         expandedQr.classList.remove('expanded');
@@ -165,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.createElement('div');
     modal.className = 'share-modal';
+    modal.style.opacity = '0'; // Start invisible
     modal.innerHTML = `
       <div class="share-modal-overlay">
         <div class="share-modal-content">
@@ -186,29 +202,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = modal.querySelector('.share-modal-close');
     const overlay = modal.querySelector('.share-modal-overlay');
 
-    const closeModal = () => {
-      modal.remove();
+    const closeModal = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        if (modal.parentNode) {
+          modal.remove();
+        }
+      }, 300);
     };
 
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
-        closeModal();
+        closeModal(e);
       }
     });
 
-    // Close on Escape key
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-        document.removeEventListener('keydown', handleEscape);
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
+    // Prevent clicks inside modal from bubbling up
+    const modalContent = modal.querySelector('.share-modal-content');
+    modalContent.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
 
-    // Prevent modal from closing immediately
-    setTimeout(() => {
+    // Close on Escape key (handled globally now)
+
+    // Animate modal appearance
+    requestAnimationFrame(() => {
+      modal.style.transition = 'opacity 0.3s ease';
       modal.style.opacity = '1';
-    }, 10);
+    });
   }
 });
