@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Share Modal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #c9d1d9;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .share-btn:hover {
+      background: #ffab6b;
+      color: #0d1117;
+      border-color: #ffab6b;
+    }
+    .debug-info {
+      margin-top: 20px;
+      padding: 10px;
+      background: #161b22;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Debug Share Modal</h1>
+  <p>Нажмите кнопку "Share" и следите за логами в консоли</p>
+  <button class="share-btn" id="shareBtn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" fill="currentColor"/>
+    </svg>
+    Share
+  </button>
+
+  <div class="debug-info" id="debugInfo">
+    Debug Info:<br>
+    - Click the Share button<br>
+    - Check browser console for logs<br>
+    - Modal should stay open
+  </div>
+
+  <script>
+    let modalCounter = 0;
+    let clickCounter = 0;
+
+    // Global click handler (simulating the original issue)
+    document.addEventListener('click', (e) => {
+      clickCounter++;
+      console.log(`Global click #${clickCounter}:`, e.target, e.target.closest('.share-modal'));
+
+      // Don't close if clicking inside share modal
+      if (e.target.closest('.share-modal')) {
+        console.log('Click inside modal - NOT closing');
+        updateDebugInfo(`Click #${clickCounter}: Inside modal - NOT closing`);
+        return;
+      }
+
+      console.log('Global click handler triggered - checking for modal to close');
+      updateDebugInfo(`Click #${clickCounter}: Global handler triggered`);
+
+      // In real site, this would close QR codes, but here we check for modal
+      const shareModal = document.querySelector('.share-modal');
+      if (shareModal) {
+        console.log('Found share modal - should NOT close it here');
+        updateDebugInfo(`Click #${clickCounter}: Found modal - NOT closing`);
+      }
+    });
+
+    // Share button functionality
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log('Share button clicked');
+        updateDebugInfo('Share button clicked');
+
+        const shareData = {
+          title: 'Debug Test',
+          text: 'Testing share modal functionality.',
+          url: window.location.href
+        };
+
+        // Always show fallback for testing
+        showShareFallback(shareData);
+      });
+    }
+
+    // Function to show fallback share options
+    function showShareFallback(shareData) {
+      modalCounter++;
+      console.log(`Creating modal #${modalCounter}`);
+
+      // Remove any existing share modal
+      const existingModal = document.querySelector('.share-modal');
+      if (existingModal) {
+        console.log('Removing existing modal');
+        existingModal.remove();
+      }
+
+      const shareUrls = {
+        twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`,
+        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`,
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`,
+        telegram: `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}`
+      };
+
+      const modal = document.createElement('div');
+      modal.className = 'share-modal';
+      modal.id = `share-modal-${modalCounter}`;
+      modal.style.opacity = '0';
+      modal.innerHTML = `
+        <div class="share-modal-overlay">
+          <div class="share-modal-content">
+            <h3>Share this website (Modal #${modalCounter})</h3>
+            <div class="share-links">
+              <a href="${shareUrls.twitter}" target="_blank" class="share-link twitter">Twitter</a>
+              <a href="${shareUrls.linkedin}" target="_blank" class="share-link linkedin">LinkedIn</a>
+              <a href="${shareUrls.facebook}" target="_blank" class="share-link facebook">Facebook</a>
+              <a href="${shareUrls.telegram}" target="_blank" class="share-link telegram">Telegram</a>
+            </div>
+            <button class="share-modal-close">Close</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+      console.log(`Modal #${modalCounter} added to DOM`);
+      updateDebugInfo(`Modal #${modalCounter} created and added to DOM`);
+
+      // Add event listeners after modal is added to DOM
+      const closeBtn = modal.querySelector('.share-modal-close');
+      const overlay = modal.querySelector('.share-modal-overlay');
+
+      const closeModal = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        console.log(`Closing modal #${modalCounter}`);
+        updateDebugInfo(`Closing modal #${modalCounter}`);
+        modal.style.opacity = '0';
+        setTimeout(() => {
+          if (modal.parentNode) {
+            modal.remove();
+            console.log(`Modal #${modalCounter} removed from DOM`);
+            updateDebugInfo(`Modal #${modalCounter} removed from DOM`);
+          }
+        }, 300);
+      };
+
+      closeBtn.addEventListener('click', (e) => {
+        console.log('Close button clicked');
+        closeModal(e);
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          console.log('Overlay clicked');
+          closeModal(e);
+        }
+      });
+
+      // Prevent clicks inside modal from bubbling up
+      const modalContent = modal.querySelector('.share-modal-content');
+      modalContent.addEventListener('click', (e) => {
+        console.log('Content clicked - stopping propagation');
+        e.stopPropagation();
+      });
+
+      // Animate modal appearance
+      requestAnimationFrame(() => {
+        modal.style.transition = 'opacity 0.3s ease';
+        modal.style.opacity = '1';
+        console.log(`Modal #${modalCounter} opacity set to 1`);
+        updateDebugInfo(`Modal #${modalCounter} now visible`);
+      });
+    }
+
+    function updateDebugInfo(message) {
+      const debugInfo = document.getElementById('debugInfo');
+      const timestamp = new Date().toLocaleTimeString();
+      debugInfo.innerHTML += `<br>[${timestamp}] ${message}`;
+      debugInfo.scrollTop = debugInfo.scrollHeight;
+    }
+
+    // Add some test buttons
+    setTimeout(() => {
+      const testButtons = document.createElement('div');
+      testButtons.innerHTML = `
+        <br><br>
+        <button onclick="document.body.click()">Test Global Click</button>
+        <button onclick="console.log('Manual test')">Test Console</button>
+      `;
+      document.body.appendChild(testButtons);
+    }, 1000);
+  </script>
+
+  <style>
+    /* Share modal styles */
+    .share-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .share-modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    .share-modal-content {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      cursor: default;
+      pointer-events: auto;
+    }
+
+    .share-modal h3 {
+      color: #c9d1d9;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .share-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .share-link {
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .share-link:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .share-link.twitter { background: #1da1f2; }
+    .share-link.linkedin { background: #0077b5; }
+    .share-link.facebook { background: #1877f2; }
+    .share-link.telegram { background: #0088cc; }
+
+    .share-modal-close {
+      background: #30363d;
+      color: #c9d1d9;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+
+    .share-modal-close:hover {
+      background: #21262d;
+    }
+
+    .share-modal[style*="opacity: 1"] .share-modal-content {
+      transform: scale(1);
+    }
+  </style>
+</body>
+</html>

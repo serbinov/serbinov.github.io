@@ -69,8 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close expanded QR when clicking outside
   // Global click handler for closing expanded elements
   document.addEventListener('click', (e) => {
+    // CRITICAL: Check if share modal exists and is active
+    const shareModal = document.querySelector('.share-modal');
+    if (shareModal && shareModal.dataset.shareModalActive === 'true') {
+      console.log('Share modal is active - ignoring global click');
+      return;
+    }
+
     // Don't close if clicking inside share modal
     if (e.target.closest('.share-modal')) {
+      console.log('Click inside share modal - ignoring');
       return;
     }
 
@@ -165,9 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to show fallback share options
   function showShareFallback(shareData) {
+    console.log('Creating share modal');
+
     // Remove any existing share modal
     const existingModal = document.querySelector('.share-modal');
     if (existingModal) {
+      console.log('Removing existing modal');
       existingModal.remove();
     }
 
@@ -180,7 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.createElement('div');
     modal.className = 'share-modal';
-    modal.style.opacity = '0'; // Start invisible
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: auto;
+    `;
     modal.innerHTML = `
       <div class="share-modal-overlay">
         <div class="share-modal-content">
@@ -197,27 +218,39 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     document.body.appendChild(modal);
+    console.log('Modal added to DOM');
+
+    // CRITICAL: Add a flag to prevent accidental closing
+    modal.dataset.shareModalActive = 'true';
 
     // Add event listeners after modal is added to DOM
     const closeBtn = modal.querySelector('.share-modal-close');
     const overlay = modal.querySelector('.share-modal-overlay');
 
     const closeModal = (e) => {
+      console.log('Closing modal');
       if (e) {
         e.preventDefault();
         e.stopPropagation();
       }
       modal.style.opacity = '0';
+      modal.dataset.shareModalActive = 'false';
       setTimeout(() => {
         if (modal.parentNode) {
           modal.remove();
+          console.log('Modal removed');
         }
       }, 300);
     };
 
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', (e) => {
+      console.log('Close button clicked');
+      closeModal(e);
+    });
+
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
+        console.log('Overlay clicked');
         closeModal(e);
       }
     });
@@ -225,15 +258,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Prevent clicks inside modal from bubbling up
     const modalContent = modal.querySelector('.share-modal-content');
     modalContent.addEventListener('click', (e) => {
+      console.log('Modal content clicked - stopping propagation');
       e.stopPropagation();
     });
 
-    // Close on Escape key (handled globally now)
-
-    // Animate modal appearance
-    requestAnimationFrame(() => {
-      modal.style.transition = 'opacity 0.3s ease';
+    // Animate modal appearance with delay to ensure it's fully set up
+    setTimeout(() => {
       modal.style.opacity = '1';
-    });
+      console.log('Modal opacity set to 1');
+    }, 50);
   }
 });
