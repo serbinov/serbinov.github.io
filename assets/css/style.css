@@ -706,6 +706,12 @@ body.qr-expanded .qr-overlay {
   .service-list { justify-content: center; }
   .project-grid { justify-content: center; }
   .doc-grid { justify-content: center; }
+  /* Mobile-specific enhancements */
+  body { background: linear-gradient(135deg, #0f1419 0%, #1a1f26 50%, #0d1117 100%); }
+  .panel { background: rgba(26, 31, 38, 0.95); border-radius: 16px; margin: 1rem; padding: 1.5rem 1rem; }
+  .panel h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+  .card, .service, .proj { border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .btn { padding: 0.9rem 1.5rem; font-size: 1rem; border-radius: 12px; }
 }
 
 /* Header alignment for contact section */
