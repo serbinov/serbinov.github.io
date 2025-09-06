@@ -764,7 +764,7 @@ body.qr-expanded .qr-overlay {
   .contact-info { padding: 0; margin: 0; }
   .contact-form-section { padding: 0.3rem 0.2rem; }
   .contact-list { gap: 0.5rem; padding: 0; margin: 0; }
-  .contact-list li { padding: 0.4rem 0.3rem; margin: 0; font-size: 0.8rem; }
+  .contact-list li { padding: 0.4rem 0.3rem; margin: 0; font-size: 0.75rem; }
   .contact-form-section h2 { font-size: 1.3rem; }
   .submit-btn { padding: 0.6rem 1rem; font-size: 0.9rem; min-width: 120px; }
   .qr-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 3rem auto 1.5rem; }
@@ -844,6 +844,7 @@ body.qr-expanded .qr-overlay {
   position: relative;
   z-index: 2;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align: left;
 }
 
 .contact-list li:hover {
