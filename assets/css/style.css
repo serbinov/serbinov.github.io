@@ -712,6 +712,8 @@ body.qr-expanded .qr-overlay {
   .panel h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
   .card, .service, .proj { border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
   .btn { padding: 0.9rem 1.5rem; font-size: 1rem; border-radius: 12px; }
+  /* Make contact form full width on mobile */
+  .contact-form-section { max-width: 100%; width: 100%; }
 }
 
 /* Extra small screens (phones) */
@@ -757,7 +759,7 @@ body.qr-expanded .qr-overlay {
   .contact-grid { gap: 1.5rem; }
   .contact-info h2 { font-size: 1.5rem; }
   .contact-list li { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
-  .contact-form-section { padding: 1rem 0.75rem; }
+  .contact-form-section { padding: 1rem 0.75rem; min-height: auto; max-width: 100%; width: 100%; }
   .contact-form-section h2 { font-size: 1.3rem; }
   .submit-btn { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
   .qr-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 3rem auto 1.5rem; }
