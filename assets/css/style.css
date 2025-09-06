@@ -762,11 +762,11 @@ body.qr-expanded .qr-overlay {
 #contact .inner { padding: 0; }
   .contact-grid { gap: 1rem; padding: 0; margin: 0; width: 100%; }
   .contact-info { padding: 0; margin: 0; }
-  .contact-form-section { padding: 0.5rem 0.3rem; min-height: auto; max-width: 100%; width: 100%; margin: 0; }
+  .contact-form-section { padding: 0.3rem 0.2rem; }
   .contact-list { gap: 0.5rem; padding: 0; margin: 0; }
   .contact-list li { padding: 0.4rem 0.3rem; margin: 0; }
   .contact-form-section h2 { font-size: 1.3rem; }
-  .submit-btn { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
+  .submit-btn { padding: 0.6rem 1rem; font-size: 0.9rem; min-width: 120px; }
   .qr-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 3rem auto 1.5rem; }
   .qr-grid img { padding: 0.3rem; }
   .qr-grid figcaption { font-size: 0.7rem; }
@@ -931,21 +931,8 @@ body.qr-expanded .qr-overlay {
   text-transform: uppercase;
 }
 
-.contact-form-section input,
-.contact-form-section textarea {
-  padding: 0.8rem 0.9rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  color: #fff;
-  font-size: 0.95rem;
-  font-family: inherit;
-  position: relative;
-  z-index: 5;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.contact-form-section input:focus,
+  .contact-form-section input,
+  .contact-form-section textarea { padding: 0.6rem 0.5rem; font-size: 0.9rem; }.contact-form-section input:focus,
 .contact-form-section textarea:focus {
   outline: none;
   border-color: var(--accent-alt);
