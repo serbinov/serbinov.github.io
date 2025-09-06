@@ -658,10 +658,10 @@ body.qr-expanded .qr-overlay {
   box-shadow: var(--shadow);
   border-color: var(--accent-alt);
 }
-.process-step h3 { margin:0; font-size:1rem; letter-spacing:.4px; display:flex; align-items:center; gap:.45rem; color:var(--accent-alt); font-weight:600; }
+.process-step h3 { margin:0; font-size:1rem; letter-spacing:.4px; display:flex; align-items:flex-start; gap:.45rem; color:var(--accent-alt); font-weight:600; }
 
 
-.step-index { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--accent-alt),var(--accent)); color:#111; font-size:1.5rem; font-weight:600; box-shadow:0 0 0 3px rgba(255,171,107,0.18); flex-shrink: 0; }
+.step-index { display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--accent-alt),var(--accent)); color:#111; font-size:1.5rem; font-weight:600; box-shadow:0 0 0 3px rgba(255,171,107,0.18); flex-shrink: 0; aspect-ratio: 1 / 1; }
 
 .step-index:hover {
   transform: scale(1.2);
@@ -780,6 +780,7 @@ body.qr-expanded .qr-overlay {
     height: 24px !important;
     font-size: 1rem;
     flex-shrink: 0;
+    aspect-ratio: 1 / 1;
   }
 }
 
@@ -1146,6 +1147,7 @@ body.qr-expanded .qr-overlay {
     height: 28px !important;
     font-size: 1.2rem;
     flex-shrink: 0;
+    aspect-ratio: 1 / 1;
   }
   
   .step-index:hover {
