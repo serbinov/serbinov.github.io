@@ -759,7 +759,8 @@ body.qr-expanded .qr-overlay {
   .contact-grid { gap: 1.5rem; }
   .contact-info h2 { font-size: 1.3rem; margin-bottom: 1rem; }
   .contact-list li { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
-  .contact-grid { gap: 1rem; padding: 0; margin: 0; }
+#contact .inner { padding: 0; }
+  .contact-grid { gap: 1rem; padding: 0; margin: 0; width: 100%; }
   .contact-info { padding: 0; margin: 0; }
   .contact-form-section { padding: 0.5rem 0.3rem; min-height: auto; max-width: 100%; width: 100%; margin: 0; }
   .contact-list { gap: 0.5rem; padding: 0; margin: 0; }
