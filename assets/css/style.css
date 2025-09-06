@@ -773,6 +773,13 @@ body.qr-expanded .qr-overlay {
   .site-footer .inner { padding: 1.5rem 0.75rem; }
   .site-footer { padding: 1.5rem 0 2rem; }
   .to-top { right: 0.75rem; }
+  
+  /* Fix step-index for very small screens */
+  .step-index {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+  }
 }
 
 /* Header alignment for contact section */
@@ -1130,6 +1137,17 @@ body.qr-expanded .qr-overlay {
   
   .share-btn span {
     display: none;
+  }
+  
+  /* Fix step-index distortion on mobile */
+  .step-index {
+    width: 28px;
+    height: 28px;
+    font-size: 1.2rem;
+  }
+  
+  .step-index:hover {
+    font-size: 1.3rem;
   }
 }
 
