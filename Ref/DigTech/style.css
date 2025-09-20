@@ -1,0 +1,528 @@
+/* --- Глобальные переменные и стили --- */
+:root {
+    --bg-dark-blue: #1A202C;
+    --bg-graphite: #2D3748;
+    --accent-gold: #D4AF37;
+    --text-light-gray: #E2E8F0;
+    --text-white: #FFFFFF;
+    --font-heading: 'Merriweather', serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark-blue); /* Основной фон, если что-то пойдет не так */
+    color: var(--text-light-gray);
+    line-height: 1.7;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--text-white);
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+section {
+    padding: 3rem 0;
+}
+
+.content-page {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+main > section:not(:first-child) {
+    margin-top: 3rem;
+}
+
+/* --- Шапка сайта --- */
+.header {
+    background-color: rgba(26, 32, 44, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bg-graphite);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.header.scrolled {
+    background-color: var(--bg-dark-blue);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    display: block;
+    height: 60px; /* Высота логотипа */
+}
+
+.logo img {
+    height: 100%;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+.desktop-nav a {
+    margin-left: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-light-gray);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-gold);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.desktop-nav a:hover {
+    color: var(--text-white);
+}
+
+.desktop-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.burger-menu, .close-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* --- Мобильная навигация --- */
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark-blue);
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-nav.active {
+    transform: translateX(0);
+}
+
+.mobile-nav a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.close-btn {
+    display: block;
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 3rem;
+}
+
+/* --- Первый экран (Hero) --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    position: relative;
+    background-color: transparent; /* Убираем фон, чтобы было видно частицы */
+    overflow: hidden; /* Скрываем все, что выходит за пределы секции */
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Помещаем фон за весь контент */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Оверлей больше не нужен, фон управляется секциями */
+    z-index: 2; /* Поверх частиц, но под текстом */
+}
+
+.hero-container {
+    position: relative;
+    z-index: 3; /* Текст поверх всего */
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero .subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text-light-gray);
+}
+
+/* --- Секция "Что мы делаем?" (Services) --- */
+.services {
+    background-color: var(--bg-graphite);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.service-card {
+    background-color: var(--bg-dark-blue);
+    padding: 2.5rem 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-gold);
+}
+
+.service-icon {
+    font-size: 3rem;
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+/* --- Секция "Результаты" (Results) --- */
+.results-list {
+    list-style: none;
+    padding-left: 0;
+    column-count: 2;
+    column-gap: 3rem;
+}
+
+.results-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    break-inside: avoid;
+}
+
+.results-list i {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    margin-top: 5px;
+}
+
+/* --- Секция призыва к действию (CTA) --- */
+.cta {
+    background-color: transparent;
+    text-align: center;
+}
+
+.cta p {
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-gold);
+    color: var(--bg-dark-blue);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #c09b2d;
+    transform: translateY(-3px);
+}
+
+/* --- Форма обратной связи --- */
+.contact-form {
+    max-width: 600px;
+    margin: 2rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--bg-graphite);
+    background-color: var(--bg-dark-blue);
+    color: var(--text-light-gray);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #A0AEC0;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+    align-self: center;
+}
+
+#form-status {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    height: 2rem; /* Резервируем место, чтобы избежать скачка контента */
+}
+
+#form-status.success {
+    color: #48BB78; /* Зеленый */
+}
+
+#form-status.error {
+    color: #F56565; /* Красный */
+}
+
+.contact-details {
+    margin-top: 4rem;
+    text-align: left;
+}
+
+.contact-details h3 {
+    font-family: var(--font-heading);
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Стили для внутренних страниц --- */
+.hero-small {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 6rem; /* Отступ для фиксированной шапки */
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=3600');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero-small h1 {
+    font-size: 3rem;
+}
+
+.content-page {
+    background-color: transparent;
+}
+
+.content-page h2 {
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-page p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.content-block {
+    background-color: rgba(26, 32, 44, 0.8); /* Полупрозрачный фон */
+    backdrop-filter: blur(10px); /* Эффект размытия для фона */
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--bg-graphite); /* Тонкая рамка для выделения */
+}
+
+.content-block:not(:last-child) {
+    margin-bottom: 2rem;
+}
+
+.tech-stack-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center; /* Выравнивание по центру */
+    margin-top: 1.5rem;
+    font-size: 3rem; /* Размер иконок */
+    color: var(--text-light-gray);
+}
+
+.tech-stack-icons i:hover,
+.tech-stack-icons .tech-icon-text:hover {
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    transition: color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.tech-icon-text {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: var(--font-heading);
+}
+
+/* --- Подвал (Footer) --- */
+.footer {
+    padding: 2rem 0;
+    text-align: center;
+    border-top: 1px solid var(--bg-graphite);
+    font-size: 0.9rem;
+}
+
+/* --- Анимации при прокрутке --- */
+.service-card, .results-list li, .content-block {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.service-card.in-view, .results-list li.in-view, .content-block.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Добавим небольшую задержку для элементов в сетке для более красивого эффекта */
+.services-grid .service-card:nth-child(2) {
+    transition-delay: 0.1s;
+}
+.services-grid .service-card:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+/* --- Адаптивность (Media Queries) --- */
+
+/* Планшеты */
+@media (max-width: 992px) {
+    h2 {
+        font-size: 2.2rem;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    section {
+        padding: 4rem 0;
+    }
+    
+    .desktop-nav {
+        display: none;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+    
+    .mobile-nav {
+        display: flex;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .results-list {
+        column-count: 1;
+    }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лаборатория Цифровых Технологий</title>
+    <link rel="icon" href="img/logo_main.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="#home"><img src="img/logo_main.svg" alt="DigTechLab Logo"></a>
+                </div>
+                <nav class="desktop-nav">
+                    <a href="#home">Главная</a>
+                    <a href="#about">О нас</a>
+                    <a href="#products">Продукты</a>
+                    <a href="#job">Вакансии</a>
+                    <a href="#contacts">Контакты</a>
+                </nav>
+                <button class="burger-menu" id="burger-menu" aria-label="Открыть меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <button class="close-btn" id="close-btn" aria-label="Закрыть меню">&times;</button>
+        <a href="#home">Главная</a>
+        <a href="#about">О нас</a>
+        <a href="#products">Продукты</a>
+        <a href="#job">Вакансии</a>
+        <a href="#contacts">Контакты</a>
+    </div>
+
+    <main>
+        <section class="hero" id="home">
+            
+            <div class="hero-overlay"></div>
+            <div class="container hero-container">
+                <h1>Лаборатория Современных Цифровых Технологий</h1>
+                <p class="subtitle">Ваш надежный партнер в мире цифровых решений</p>
+            </div>
+        </section>
+
+        <section class="content-page" id="about">
+            <div class="container">
+                <h2>Молодые и целеустремленные</h2>
+                <div class="content-block">
+                    <p>Мы молодая и амбициозная команда разработчиков программного обеспечения. Пишем алгоритмы и занимаемся оптимизацией кода. Мы разрабатываем и создаем надежное и высокопроизводительное ПО, соответствующее современным требованиям для работы Корпоративных Информационных Систем.</p>
+                </div>
+
+                <h2>Наша миссия</h2>
+                <div class="content-block">
+                    <p>Создавать новые технологии и продукты для работы с данными, которые нужны пользователям.</p>
+                </div>
+
+                <h2>Работа у нас</h2>
+                <div class="content-block">
+                    <p>Мы формируем новый тренд условий работы и создаём для своих сотрудников комфортную обстановку.</p>
+                </div>
+
+                <h2>Наши принципы</h2>
+                <div class="content-block">
+                    <ul class="results-list">
+                        <li><i class="fas fa-check-circle"></i>Делать то, что действительно нужно пользователям, обществу, людям.</li>
+                        <li><i class="fas fa-check-circle"></i>Работать рентабельно.</li>
+                        <li><i class="fas fa-check-circle"></i>Быть надежным и выгодным партнером, честно относиться к партнерам, конечным пользователям, сотрудникам.</li>
+                        <li><i class="fas fa-check-circle"></i>Работать хорошо, делать и продавать продукцию лучше конкурентов.</li>
+                        <li><i class="fas fa-check-circle"></i>Опираться на собственные силы и на кооперацию с лидерами.</li>
+                        <li><i class="fas fa-check-circle"></i>Изучать чужой опыт, но думать своей головой.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="content-page">
+            <div class="container">
+                <h2>Наши продукты</h2>
+                <div class="content-block">
+                    <h2>Наш продукт</h2>
+                    <p>Мы разрабатываем платформу управления данными с возможностью поиска и загрузки данных на базе встроенного языка структурированных запросов. Реализуем возможность интеграции нашей платформы с внешними потребителями и программными продуктами с целью ускорения запросов поиска и загрузки данных, а также надежного хранения пользовательской информации.</p>
+                </div>
+                <div class="content-block">
+                    <h2>Стек технологий</h2>
+                    <p>Мы используем передовые технологии и языки программирования, для реализации ядра проектируемой платформы.</p>
+                    <div class="tech-stack-icons">
+                        <i class="fab fa-python" title="Python"></i>
+                        <i class="fab fa-java" title="Java"></i>
+                        <i class="fab fa-js-square" title="JavaScript"></i>
+                        <i class="fab fa-docker" title="Docker"></i>
+                        <i class="fab fa-linux" title="Linux"></i>
+                        <span class="tech-icon-text">C++</span>
+                    </div>
+                </div>
+                <div class="content-block">
+                    <h2>Область применения</h2>
+                    <p>Мы разрабатываем платформу для обработки больших массивов структурированных и неструктурированных данных с целью ускорения работы Корпоративных Информационных Систем и систем аналитической отчетности.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="job" class="content-page">
+            <div class="container">
+                <h2>Вакансии</h2>
+                <div class="content-block">
+                    <h2>Контакты для соискателей</h2>
+                     <p><i class="fas fa-map-marker-alt"></i> Наш офис находится по адресу: г. Москва, 2й Верхний Михайловский проезд, дом 9, строение 5, офис 205</p>
+                    <p><i class="fas fa-envelope"></i> По всем вопросам Вы можете написать нам на почту: <a href="mailto:hr@digtechlab.ru">hr@digtechlab.ru</a></p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="cta" id="contacts">
+            <div class="container">
+                <h2>Свяжитесь с нами</h2>
+                <p>Оставьте заявку, и мы свяжемся с вами в ближайшее время.</p>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Ваш Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Ваше сообщение" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Отправить</button>
+                </form>
+                <div id="form-status"></div>
+
+                <div class="contact-details">
+                    <div class="content-block">
+                        <h3>Наши контакты</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Наш офис находится по адресу: г. Москва, 2й Верхний Михайловский проезд, дом 9, строение 5, офис 205</p>
+                        <p><i class="fas fa-envelope"></i> По всем вопросам Вы можете написать нам на почту: <a href="mailto:info@digtechlab.ru">info@digtechlab.ru</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ЛАБОРАТОРИЯ СОВРЕМЕННЫХ ЦИФРОВЫХ ТЕХНОЛОГИЙ"</p>
+            <p>ОГРН: 1235000076464</p>
+            <p>ИНН: 5024233613</p>
+            <p>&copy; 2025 Лаборатория Цифровых Технологий. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
